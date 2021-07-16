@@ -5,7 +5,8 @@ import {
     LOG_IN,
     PRODUCT_LISTING_ROUTE,
     SHOP_ROUTE,
-    SIGNUP_ROUTE
+    SIGNUP_ROUTE,
+    PRODUCTS_ROUTE
 } from './routeConstants'
 
 import React from 'react'
@@ -39,6 +40,12 @@ const Shop_Container = React.lazy(() =>
     import(
         '../../components/Shop/Shop' /* webpackChunkName: "ProductListing.Container" */
     )
+)
+
+const Products_Container=React.lazy(() =>
+import(
+    '../../components/Product/Products/Products' /* webpackChunkName: "ProductListing.Container" */
+)
 )
 
 
@@ -80,6 +87,11 @@ const appRoutes = {
         shop: {
             path: SHOP_ROUTE,
             component: Shop_Container,
+            exact: true
+        },
+        products: {
+            path: PRODUCTS_ROUTE,
+            component: Products_Container,
             exact: true
         }
 

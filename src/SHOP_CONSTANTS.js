@@ -303,10 +303,10 @@ export const SHOPS = [
         },
         Services: [
             {
-                name: "Nail Cutting"
+                name: "Hair Cut"
             },
             {
-                name: "Saloon"
+                name: "Nail"
             },
             {
                 name: "Spa"
@@ -413,7 +413,7 @@ export const SHOPS = [
         },
         Services: [
             {
-                name: "Nail Cutting"
+                name: "Massage"
             },
             {
                 name: "Saloon"
@@ -507,7 +507,7 @@ export const SHOPS = [
         },
         Services: [
             {
-                name: "Nail Cutting"
+                name: "Massage"
             },
             {
                 name: "Saloon"

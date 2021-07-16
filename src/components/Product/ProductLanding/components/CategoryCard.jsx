@@ -1,11 +1,13 @@
 import { Box, Button, Grid, makeStyles } from '@material-ui/core'
 import React, { useState } from 'react'
+import { useHistory } from 'react-router'
 
 import CATEGORY from "../../../../CATEGORY"
+import { PRODUCTS_ROUTE } from '../../../../configurations/routing/routeConstants'
 
 const defaultState = CATEGORY.map((cat) => {
     return {
-        name: cat,
+        name: cat.categoryName,
         selected: false
     }
 })
@@ -23,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 function CategoryCard() {
     const [selectedCategory, setSelectedCategory] = useState(defaultState)
     const classes = useStyles()
+    const history = useHistory()
 
     const handleSelect = (cat) => {
         // console.log(cat, "cat")
@@ -57,7 +60,10 @@ function CategoryCard() {
                     })}
                 </Grid>
                 <Grid item>
-                    <Button variant="contained">Find</Button>
+                    <Button onClick={() => history.push({
+                        pathname: PRODUCTS_ROUTE,
+                        state: { category: [...selectedCategory] }
+                    })} variant="contained">Find</Button>
                 </Grid>
             </Grid>
 

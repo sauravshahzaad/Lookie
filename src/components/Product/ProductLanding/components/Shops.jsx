@@ -1,6 +1,8 @@
-import { Box, Container, Grid, Typography, makeStyles } from "@material-ui/core"
+import { Box, Container, Grid, Typography, makeStyles, Button } from "@material-ui/core"
 
 import React from 'react'
+import { useHistory } from "react-router";
+import { PRODUCTS_ROUTE } from "../../../../configurations/routing/routeConstants";
 import SHOPS from "../../../../SHOP_CONSTANTS"
 import ShpCard from "./ShpCard"
 
@@ -18,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 function Shops() {
     const classes = useStyles();
+    const history = useHistory()
     return (
         <Box my={2} mx={9} mt={5}>
             <Container maxWidth="md">
@@ -33,6 +36,15 @@ function Shops() {
                             <ShpCard shop={shp} />
                         </Grid>
                     })}
+                </Grid>
+                <Grid item container justify="flex-end">
+                    <Grid item></Grid>
+                    <Grid item>
+                        <Box mb={2}>
+                            <Button onClick={() => { history.push(PRODUCTS_ROUTE) }} variant="contained">View All</Button>
+                        </Box>
+                    </Grid>
+
                 </Grid>
             </Container>
         </Box>

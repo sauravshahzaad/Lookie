@@ -7,4 +7,5 @@ export const ABOUT_US = "/AboutUs"
 export const SIGNUP_ROUTE = "/SignUp"
 export const LOG_IN = "/logIn"
 export const SHOP_ROUTE = "/shop"
+export const PRODUCTS_ROUTE = "/products"
 
