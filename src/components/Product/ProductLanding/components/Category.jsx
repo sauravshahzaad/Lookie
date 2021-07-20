@@ -5,29 +5,8 @@ import React from 'react'
 import CATEGORY from '../../../../CATEGORY';
 import { PRODUCTS_ROUTE } from '../../../../configurations/routing/routeConstants';
 import { useHistory } from 'react-router';
-// const CATEGORY = [
-//     {
-//         id: "1",
-//         img: "https://www.bewtifly.com/local/assets/site/images/services/hair_cutting.jpg",
-//         categoryName: "Hair Cut",
-//         name:"Hair"
-//     },
-//     {
-//         id: "2",
-//         img: "https://www.bewtifly.com/local/assets/site/images/services/beard_styling.jpg",
-//         categoryName: "Beard Styling"
-//     },
-//     {
-//         id: "3",
-//         img: "https://www.bewtifly.com/local/assets/site/images/services/nail_art.jpg",
-//         categoryName: "Nail Art"
-//     },
-//     {
-//         id: "4",
-//         img: "https://www.bewtifly.com/local/assets/site/images/services/massage.jpg",
-//         categoryName: "Massage"
-//     },
-// ]
+import { connect } from 'react-redux'
+import { applicationActions } from '../../../../actions/application';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -39,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
-function Category() {
+function Category(props) {
     const classes = useStyles();
     const history = useHistory();
     return (
@@ -64,13 +43,13 @@ function Category() {
                                             marginTop: "90px"
                                         }}><MaterialTypography variant="h5" style={{ color: "#fff" }} >{cat.categoryName}</MaterialTypography></Grid>
                                         <Grid item>
-                                            <Button onClick={() => history.push({
-                                                pathname: PRODUCTS_ROUTE,
-                                                state: {
-                                                    category: [{ name: cat.categoryName, selected: true }]
+                                            <Button onClick={() => {
+                                                props.actions.servicesSelect([{ name: cat.categoryName, selected: true }])
+                                                history.push({
+                                                    pathname: PRODUCTS_ROUTE,
                                                 }
-                                            }
-                                            )} variant="outlined" style={{ color: "#fff", marginTop: "5px" }}>View </Button></Grid>
+                                                )
+                                            }} variant="outlined" style={{ color: "#fff", marginTop: "5px" }}>View </Button></Grid>
                                     </Grid>
                                 </Paper>
                             </Box>
@@ -82,4 +61,20 @@ function Category() {
     )
 }
 
-export default Category
+
+const mapStateToProps = (state) => ({
+    loggedIn: state.authentication.loggedIn,
+    user: state.authentication.user
+
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    actions: {
+        servicesSelect: (services) => {
+            return dispatch(applicationActions.servicesSelect(services))
+        }
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Category)
+

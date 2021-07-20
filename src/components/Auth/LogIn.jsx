@@ -31,7 +31,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import React from "react";
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { alertActions } from "../../actions/alert";
+import { applicationActions } from "../../actions/application";
 // import history from "../../configurations/routing/history"
 import { makeStyles } from "@material-ui/core/styles";
 import { useEffect } from "react";
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "75%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -85,6 +85,11 @@ function LogIn(props) {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  useEffect(() => {
+    console.log(location, "Location in UseEffect")
+  })
+
   useEffect(() => {
     if (alert.type === 'no_alert') {
       setOpen(false);
@@ -112,10 +117,11 @@ function LogIn(props) {
     setOpen(false);
   };
   useEffect(() => {
-    dispatch(alertActions.clear())
+    dispatch(applicationActions.clear())
   }, [dispatch]);
 
   const handlSubmit = async (email, pass, from) => {
+    console.log(from, "from")
     const data = dispatch(userActions.login(email, pass, from));
     console.log(isLoggedIn, "isLoggedIn")
     data.then(res => {
@@ -147,6 +153,8 @@ function LogIn(props) {
       //   alert(JSON.stringify(values, null, 2));
       console.log(JSON.stringify(values));
       // dispatch(setUser(values))
+      console.log(location, "location state")
+      console.log(history, "history state")
       const { from } = location.state || { from: { pathname: "/" } };
       // const data = dispatch(userActions.login(values.email, values.password, from));
       // history.push("/");
@@ -158,7 +166,7 @@ function LogIn(props) {
   //   return <Redirect to="/" />;
   // }
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" >
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>

@@ -1,4 +1,5 @@
 import AppBar from '@material-ui/core/AppBar';
+import AppointmentTab from "./AppointmentTab"
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -46,6 +47,7 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        width: '100%',
         backgroundColor: theme.palette.background.paper,
     },
     tab: {
@@ -65,7 +67,7 @@ export default function SimpleTabs(props) {
     return (
         <div className={classes.root}>
             <AppBar position="static">
-                <Tabs className={classes.tab} value={value} onChange={handleChange} aria-label="simple tabs example">
+                <Tabs scrollButtons="auto" variant="scrollable" value={value} onChange={handleChange} >
                     <Tab label="About" {...a11yProps(0)} />
                     <Tab label="Services" {...a11yProps(1)} />
                     <Tab label="Reviews" {...a11yProps(2)} />
@@ -82,7 +84,7 @@ export default function SimpleTabs(props) {
                 <ShopReview shop={props.shop} />
             </TabPanel>
             <TabPanel value={value} index={3}>
-                Item Three
+                <AppointmentTab />
             </TabPanel>
         </div>
     );

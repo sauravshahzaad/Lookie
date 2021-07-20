@@ -4,7 +4,7 @@ import MaterialTypography from "../../../sharedComponents/materialComponents/typ
 import React from 'react'
 
 function ShopDetail({ shop }) {
-    console.log(shop)
+    // console.log(shop)
     return (
         <Box>
             <Grid container direction="column" spacing={2}>

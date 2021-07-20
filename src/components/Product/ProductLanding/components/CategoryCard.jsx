@@ -1,7 +1,8 @@
 import { Box, Button, Grid, makeStyles } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
-
+import { connect } from 'react-redux'
+import { applicationActions } from '../../../../actions/application';
 import CATEGORY from "../../../../CATEGORY"
 import { PRODUCTS_ROUTE } from '../../../../configurations/routing/routeConstants'
 
@@ -22,10 +23,12 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#00227b"
     }
 }))
-function CategoryCard() {
+function CategoryCard(props) {
     const [selectedCategory, setSelectedCategory] = useState(defaultState)
+    const [selectedServices, setSelectedServices] = useState([])
     const classes = useStyles()
     const history = useHistory()
+    const { actions } = props
 
     const handleSelect = (cat) => {
         // console.log(cat, "cat")
@@ -38,8 +41,22 @@ function CategoryCard() {
         // console.log(defaultState, "defaultState1")
         setSelectedCategory(preState => ([...defaultState]))
     }
+    useEffect(() => {
+        changeSelectedServices(selectedCategory)
+
+    }, [selectedCategory])
+    const changeSelectedServices = (selectedServices) => {
+        const services = []
+        selectedServices.forEach((e) => {
+            if (e.selected) {
+                services.push(e)
+            }
+        })
+        setSelectedServices(services)
+    }
     // console.log(defaultState, "defaultState2")
-    // console.log(selectedCategory, "selectedCategory")
+    console.log(selectedCategory, "selectedCategory")
+    console.log(selectedServices, "selectedServices")
     return (
         <Box mt={2}>
             <Grid container justify="center" direction="column" alignItems="center" spacing={2}>
@@ -60,10 +77,12 @@ function CategoryCard() {
                     })}
                 </Grid>
                 <Grid item>
-                    <Button onClick={() => history.push({
-                        pathname: PRODUCTS_ROUTE,
-                        state: { category: [...selectedCategory] }
-                    })} variant="contained">Find</Button>
+                    <Button onClick={() => {
+                        actions.servicesSelect([...selectedServices])
+                        history.push({
+                            pathname: PRODUCTS_ROUTE,
+                        })
+                    }} variant="contained">Find</Button>
                 </Grid>
             </Grid>
 
@@ -71,4 +90,22 @@ function CategoryCard() {
     )
 }
 
-export default CategoryCard
+const mapStateToProps = (state) => ({
+    loggedIn: state.authentication.loggedIn,
+    user: state.authentication.user,
+    loading: state.application.loading,
+    services: state.application.services,
+    shop: state.application.shop
+
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    actions: {
+        servicesSelect: (services) => {
+            return dispatch(applicationActions.servicesSelect(services))
+        }
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryCard)
+

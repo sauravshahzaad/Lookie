@@ -1,4 +1,12 @@
-import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, SET_LOCATION_FAILURE, SET_LOCATION_REQUEST, SET_LOCATION_SUCCESS } from "../actionConstants/actionConstants"
+import {
+    LOGIN_FAILURE,
+    LOGIN_REQUEST,
+    LOGIN_SUCCESS,
+    LOGOUT,
+    SET_LOCATION_FAILURE,
+    SET_LOCATION_REQUEST,
+    SET_LOCATION_SUCCESS
+} from "../actionConstants/actionConstants"
 
 // import { userConstants } from '../_constants';
 

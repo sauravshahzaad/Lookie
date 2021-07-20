@@ -1,10 +1,13 @@
+import { Box, Grid } from '@material-ui/core'
 import React from 'react'
-
+import ReviewCard from "../../../sharedComponents/ReviewCard"
 function ShopReview() {
     return (
-        <div>
-            Review
-        </div>
+        <Box>
+            <Grid container justify="center" alignItems="center">
+                <ReviewCard />
+            </Grid>
+        </Box>
     )
 }
 

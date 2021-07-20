@@ -1,10 +1,14 @@
 import { Box, Container, Grid, Typography, makeStyles, Button } from "@material-ui/core"
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory } from "react-router";
 import { PRODUCTS_ROUTE } from "../../../../configurations/routing/routeConstants";
 import SHOPS from "../../../../SHOP_CONSTANTS"
 import ShpCard from "./ShpCard"
+import { connect } from 'react-redux'
+import { applicationActions } from '../../../../actions/application';
+
+import CATEGORY from "../../../../CATEGORY";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,9 +22,18 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: "20px",
     }
 }));
-function Shops() {
+function Shops(props) {
     const classes = useStyles();
     const history = useHistory()
+    const [selectedServices, setSelectedServices] = useState([])
+    useEffect(() => {
+        const services = []
+        CATEGORY.forEach((e) => {
+            // console.log(e)
+            services.push({ name: e.categoryName, selected: true })
+        })
+        setSelectedServices(services)
+    }, [])
     return (
         <Box my={2} mx={9} mt={5}>
             <Container maxWidth="md">
@@ -41,7 +54,10 @@ function Shops() {
                     <Grid item></Grid>
                     <Grid item>
                         <Box mb={2}>
-                            <Button onClick={() => { history.push(PRODUCTS_ROUTE) }} variant="contained">View All</Button>
+                            <Button onClick={() => {
+                                props.actions.servicesSelect(selectedServices)
+                                history.push(PRODUCTS_ROUTE)
+                            }} variant="contained">View All</Button>
                         </Box>
                     </Grid>
 
@@ -50,5 +66,22 @@ function Shops() {
         </Box>
     )
 }
+const mapStateToProps = (state) => ({
+    loggedIn: state.authentication.loggedIn,
+    user: state.authentication.user,
+    loading: state.application.loading,
+    services: state.application.services,
+    // shop: state.application.shop
 
-export default Shops
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    actions: {
+        servicesSelect: (services) => {
+            return dispatch(applicationActions.servicesSelect(services))
+        }
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Shops)
+

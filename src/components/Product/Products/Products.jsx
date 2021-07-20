@@ -1,10 +1,10 @@
 import { Box, Container, Grid, makeStyles } from '@material-ui/core'
 import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router';
-import CATEGORY from '../../../CATEGORY';
 import SHOP_CONSTANTS from "../../../SHOP_CONSTANTS"
 import ShpCard from "../../../components/Product/ProductLanding/components/ShpCard"
-
+import { connect } from 'react-redux'
+import { applicationActions } from '../../../actions/application';
+import Loading from "../../../sharedComponents/Loading/Loading"
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -19,63 +19,44 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Products(props) {
-    const location = useLocation();
     const classes = useStyles()
-    // console.log(location)
-    const [selectedCategory, setSelectedCategory] = useState([])
+    const { services, loading } = props
     const [allShops, setAllShops] = useState([])
-
     useEffect(() => {
-        let catArray = [];
-        if (location && location.state && location.state.category) {
-
-            location.state.category.forEach(element => {
-                if (element.selected) {
-                    console.log(element)
-                    catArray.push(element)
-                }
-            });
-            // console.log(catArray)
-        }
-        else {
-            CATEGORY.forEach((element) => {
-                // console.log(element)
-                catArray.push({
-                    name: element,
-                    selected: true
+        const shops = []
+        SHOP_CONSTANTS.forEach((e) => {
+            e.Services.forEach((ele) => {
+                console.log(ele)
+                services.forEach(ser => {
+                    if (ser.name === ele.name) {
+                        shops.push(e)
+                    }
                 })
             })
-        }
-        setSelectedCategory(pre => [...catArray])
-    }, [])
-    function findCommonElements(arr1, arr2) {
-        console.log(arr1, "arr1")
-        console.log(arr2, "arr2")
-        return arr1.some(item => arr2.includes(item))
-    }
-    useEffect(() => {
-        const shops = [];
-        SHOP_CONSTANTS.forEach((shop) => {
-            console.log(shop.Services)
-            console.log(findCommonElements(shop.Services, selectedCategory))
-            if (findCommonElements(shop.Services, selectedCategory)) {
-                shops.push(shop)
-                console.log(shops)
-            }
         })
-    }, [selectedCategory])
+        setAllShops(shops)
+    }, [services])
 
-    console.log(selectedCategory, "selectedCategory")
+    console.log(allShops, "allShops")
+    console.log(services, "services")
+    if (loading) {
+        console.log(loading)
+        return (<Loading />)
+    }
 
     return (
         <Box my={2} mx={9} mt={5}>
             <Container maxWidth="md">
                 <Grid container spacing={2} className={classes.root}>
-                    {SHOP_CONSTANTS.map((shop, index) => {
-                        return <Grid item xs={12} sm={6} md={4} key={index} className={classes.card}>
-                            <Box><ShpCard shop={shop} /></Box>
-                        </Grid>
-                    })}
+                    {allShops.length > 0 ?
+                        allShops.map((shop, index) => {
+                            return <Grid item xs={12} sm={6} md={4} key={index} className={classes.card}>
+                                <Box><ShpCard shop={shop} /></Box>
+                            </Grid>
+                        })
+                        :
+                        <><p>No shops Found related to your selected services</p></>
+                    }
 
                 </Grid>
             </Container>
@@ -83,5 +64,23 @@ function Products(props) {
     )
 }
 
-export default Products
+const mapStateToProps = (state) => ({
+    loggedIn: state.authentication.loggedIn,
+    user: state.authentication.user,
+    loading: state.application.loading,
+    services: state.application.services,
+    // shop: state.application.shop
+
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    actions: {
+        servicesSelect: (services) => {
+            return dispatch(applicationActions.servicesSelect(services))
+        }
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products)
+
 
