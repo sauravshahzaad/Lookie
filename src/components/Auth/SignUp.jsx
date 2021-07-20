@@ -21,11 +21,10 @@ import { useDispatch, useSelector } from "react-redux";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import MuiAlert from "@material-ui/lab/Alert";
 import { NavLink } from "react-router-dom"
-import { alertActions } from "../../actions/alert";
+import { applicationActions } from "../../actions/application";
 import { makeStyles } from "@material-ui/core/styles";
 import { useFormik } from "formik";
 import { useHistory } from "react-router-dom";
-import { userActions } from "../../actions/user"
 
 const phoneRegExp = /^[6789]\d{9}$/
 function Copyright() {
@@ -68,7 +67,7 @@ function SignUp() {
   const classes = useStyles();
   const dispatch = useDispatch();
   let history = useHistory();
-  const alert = useSelector((state) => state.alert);
+  const alert = useSelector((state) => state.application.noti);
   const [messge, setmsg] = useState("");
   // const [showpass,setShowPass]=useState(false);
   // const handleClickShowPassword = () => {
@@ -106,11 +105,11 @@ function SignUp() {
     setOpen(false);
   };
   useEffect(() => {
-    dispatch(alertActions.clear())
+    dispatch(applicationActions.clear())
   }, [dispatch]);
 
   const handlSignUp = async (user) => {
-    const res = await dispatch(userActions.register(user))
+    const res = await dispatch(applicationActions.register(user))
     console.log(res.data, "res")
     if (res.data.success) {
       history.push("/")

@@ -26,56 +26,8 @@ import {
     SUCCESS,
 } from "../actionConstants/actionConstants"
 
-import { alertActions } from "./alert"
-// import { history } from "../configurations/routing/history";
 import { userService } from "../services/userService";
 
-// import { useHistory } from "react-router-dom";
-
-// function login(email, password, from) {
-//   return (dispatch) => {
-//     dispatch(request({ email }));
-
-//     userService.login(email, password).then(
-//       (user) => {
-//         if (!user) {
-//           const msg = "email or Password Does not Match";
-//           const data = dispatch(failure(msg));
-//           dispatch(alertActions.error(msg));
-//           console.log(data, "Data in user")
-//           return data
-//         } else {
-//           console.log(user);
-//           console.log(
-//             "Authenticated from user.js user => " + JSON.stringify(user)
-//           );
-//           dispatch(success(user));
-//           dispatch(alertActions.success("Logged in Successfully"));
-//           console.log(`history.push("/");`);
-//           console.log(from)
-//           history.push(from.pathname);
-
-//           // history.replace("/");
-//         }
-//       },
-//       (error) => {
-//         dispatch(failure(error.toString()));
-//         dispatch(alertActions.error(error.toString()));
-//         // history.push(from)
-//       }
-//     );
-//   };
-
-//   function request(user) {
-//     return { type: LOGIN_REQUEST, user };
-//   }
-//   function success(user) {
-//     return { type: LOGIN_SUCCESS, user };
-//   }
-//   function failure(error) {
-//     return { type: LOGIN_FAILURE, error };
-//   }
-// }
 const logInCreator = (type, payload = undefined) => ({
     type,
     payload
@@ -106,32 +58,32 @@ const register = (user) => {
             const response = await userService.register(user)
             if (response.data.success) {
                 dispatch(signUpCreator(REGISTER_SUCCESS, response))
-                dispatch(alertActions.success(response.data.msg));
+                dispatch(success(response.data.msg));
                 // console.log(response.data.msg, "in User")
                 return response
             } else {
                 dispatch(signUpCreator(REGISTER_FAILURE, response.data.msg))
-                dispatch(alertActions.error(response.data.msg.toString()));
+                dispatch(error(response.data.msg.toString()));
                 return response
             }
         } catch (err) {
             console.log(err)
             dispatch(signUpCreator(REGISTER_FAILURE, err))
-            dispatch(alertActions.error(err.toString()));
+            dispatch(error(err.toString()));
         }
     }
 }
 
 function logout() {
     return (dispatch) => {
-        dispatch(alertActions.clear())
+        dispatch(clear())
         userService.logout().then((res) => {
             console.log(`Logged out result => ` + res)
             if (res === "logout") {
                 dispatch(logOutUser())
-                dispatch(alertActions.success("Loggout Successfully.."))
+                dispatch(success("Loggout Successfully.."))
             } else {
-                dispatch(alertActions.error("Loggout Failed.."))
+                dispatch(error("Loggout Failed.."))
             }
 
         })
@@ -181,7 +133,7 @@ const serviceSelectCreator = (type, payload = undefined) => ({
     type,
     payload
 })
-const serviceSelect = (services) => {
+const servicesSelect = (services) => {
     console.log("services,", services)
     return (dispatch) => {
         dispatch(serviceSelectCreator(SET_SERVICES_REQUEST))
@@ -195,46 +147,6 @@ const serviceSelect = (services) => {
     }
 }
 
-// function register(user) {
-//   return (dispatch) => {
-//     dispatch(request(user));
-
-//     userService.register(user).then(
-//       (res) => {
-//         console.log("on user.js " + res)
-//         if (res === "Registered") {
-//           dispatch(success());
-//           // history.push("/login");
-//           dispatch(alertActions.success("Registration successful"));
-//           dispatch(login(user.username, user.password))
-//         } else if (res === "Already Registered") (
-//           dispatch(alertActions.error("Already Registered"))
-//         )
-//         else {
-//           dispatch(failure("Registration Failed"));
-//           dispatch(alertActions.error("UserName Already taken"));
-//         }
-//         // dispatch(success());
-//         // history.push("/login");
-//         // dispatch(alertActions.success("Registration successful"));
-//       },
-//       (error) => {
-//         dispatch(failure(error.toString()));
-//         dispatch(alertActions.error(error.toString()));
-//       }
-//     );
-//   };
-
-//   function request(user) {
-//     return { type: REGISTER_REQUEST, user };
-//   }
-//   function success(user) {
-//     return { type: REGISTER_SUCCESS, user };
-//   }
-//   function failure(error) {
-//     return { type: REGISTER_FAILURE, error };
-//   }
-// }
 
 function getAll() {
     return (dispatch) => {
@@ -299,6 +211,6 @@ export const applicationActions = {
     location,
     getAll,
     delete: _delete,
-    serviceSelect,
+    servicesSelect,
     shopSelect
 };

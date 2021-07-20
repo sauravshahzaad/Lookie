@@ -347,10 +347,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 import MenuIcon from "@material-ui/icons/Menu";
 import { useState } from "react";
-import { userActions } from "../../actions/user";
+
 import {
     withRouter,
 } from "react-router-dom";
+import { applicationActions } from "../../actions/application";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -404,9 +405,9 @@ function Navbar(props) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const dispatch = useDispatch();
-    // const user = useSelector((state) => state.authentication.user.user.name);
+    // const user = useSelector((state) => state.application.user.user.name);
 
-    const loggedIn = useSelector((state) => state.authentication.loggedIn);
+    const loggedIn = useSelector((state) => state.application.loggedIn);
     // console.log(user, "User in user")
 
     const handleMenu = (event) => {
@@ -427,7 +428,7 @@ function Navbar(props) {
     const logIn = () => {
         history.push(LOG_IN)
     }
-    const user = useSelector((state) => state.authentication.user);
+    const user = useSelector((state) => state.application.user);
     const [name, setName] = useState("B");
     useEffect(() => {
         if (loggedIn && user) {
@@ -534,7 +535,7 @@ function Navbar(props) {
                                                 <MenuItem
                                                     // variant="h6"
                                                     // className={classes.logOut}
-                                                    onClick={() => dispatch(userActions.logout())}
+                                                    onClick={() => dispatch(applicationActions.logout())}
                                                 >
                                                     LogOut
                                                 </MenuItem>
@@ -580,7 +581,7 @@ function Navbar(props) {
                                                 <MenuItem
                                                     // variant="h6"
                                                     // className={classes.logOut}
-                                                    onClick={() => dispatch(userActions.logout())}
+                                                    onClick={() => dispatch(applicationActions.logout())}
                                                 >
                                                     LogOut
                                                 </MenuItem>
@@ -614,7 +615,7 @@ function Navbar(props) {
                                         <Typography
                                             variant="h6"
                                             className={classes.logOut}
-                                            onClick={() => dispatch(userActions.logout())}
+                                            onClick={() => dispatch(applicationActions.logout())}
                                         >
                                             LogOut
                                         </Typography>

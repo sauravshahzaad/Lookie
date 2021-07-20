@@ -65,8 +65,8 @@ function Products(props) {
 }
 
 const mapStateToProps = (state) => ({
-    loggedIn: state.authentication.loggedIn,
-    user: state.authentication.user,
+    loggedIn: state.application.loggedIn,
+    user: state.application.user,
     loading: state.application.loading,
     services: state.application.services,
     // shop: state.application.shop

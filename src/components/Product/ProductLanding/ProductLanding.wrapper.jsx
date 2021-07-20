@@ -9,7 +9,7 @@ import Footer from "../../../sharedComponents/Footer/Footer"
 import Shops from "./components/Shops"
 import { connect } from 'react-redux'
 // import geocoder from "geocoder"
-import { userActions } from "../../../actions/user"
+import { applicationActions } from '../../../actions/application'
 import { withRouter } from 'react-router'
 
 // import { withSnackbar } from 'notistack'
@@ -65,14 +65,14 @@ export class ProductLandingWrapper extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    loggedIn: state.authentication.loggedIn,
-    location: state.authentication.location
+    loggedIn: state.application.loggedIn,
+    location: state.application.location
 })
 
 const mapDispatchToProps = (dispatch) => ({
     actions: {
         location: (location) => {
-            return dispatch(userActions.location(location))
+            return dispatch(applicationActions.location(location))
         }
     }
 })

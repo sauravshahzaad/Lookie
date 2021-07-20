@@ -69,7 +69,7 @@ export function ShpCard(props) {
 }
 
 const mapStateToProps = (state) => ({
-    loggedIn: state.authentication.loggedIn,
+    loggedIn: state.application.loggedIn,
     selectedShop: state.application.shop
 
 })

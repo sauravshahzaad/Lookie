@@ -41,9 +41,8 @@ import {
   useLocation
 } from "react-router-dom";
 import { useState } from "react";
-import { userActions } from "../../actions/user";
 
-///store/actions/user.js
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -73,8 +72,8 @@ function LogIn(props) {
   const dispatch = useDispatch();
   let history = useHistory();
   const location = useLocation();
-  const isLoggedIn = useSelector((state) => state.authentication.loggingIn);
-  const alert = useSelector((state) => state.alert);
+  const isLoggedIn = useSelector((state) => state.application.loggingIn);
+  const alert = useSelector((state) => state.application.noti);
   const [messge, setmsg] = useState("");
   const [showpass, setShowPass] = useState(false);
   const handleClickShowPassword = () => {
@@ -122,7 +121,7 @@ function LogIn(props) {
 
   const handlSubmit = async (email, pass, from) => {
     console.log(from, "from")
-    const data = dispatch(userActions.login(email, pass, from));
+    const data = dispatch(applicationActions.login(email, pass, from));
     console.log(isLoggedIn, "isLoggedIn")
     data.then(res => {
       console.log(res, "data in handle")
@@ -156,7 +155,7 @@ function LogIn(props) {
       console.log(location, "location state")
       console.log(history, "history state")
       const { from } = location.state || { from: { pathname: "/" } };
-      // const data = dispatch(userActions.login(values.email, values.password, from));
+      // const data = dispatch(applicationActions.login(values.email, values.password, from));
       // history.push("/");
       handlSubmit(values.email, values.password, from)
 

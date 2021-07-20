@@ -25,7 +25,7 @@ export class ProductLandingContainer extends Component {
 const mapStateToProps = (state) => ({
     // loading: state.product.loading,
     // faqList: state.product.faqs
-    loggedIn: state.authentication.loggedIn
+    loggedIn: state.application.loggedIn
 
 })
 

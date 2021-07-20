@@ -22,7 +22,7 @@ const useStyles = makeStyles({
     // top: 20,
     bottom: 20,
     zIndex: 5,
-    color:"#387002",
+    color: "#387002",
   },
   wrapIcon: {
     verticalAlign: "middle",
@@ -38,9 +38,9 @@ function Alert(props) {
 }
 
 function Home(props) {
-  // const isLoggedIn = useSelector((state) => state.authentication.loggedIn);
-  // const user = useSelector((state) => state.authentication.user);
-  const alert = useSelector((state) => state.alert);
+  // const isLoggedIn = useSelector((state) => state.application.loggedIn);
+  // const user = useSelector((state) => state.application.user);
+  const alert = useSelector((state) => state.application.noti);
   const [messge, setmsg] = useState("");
   const vertical = "top";
   const horizontal = "center";
@@ -84,7 +84,7 @@ function Home(props) {
             container
             justify="center"
             alignItems="center"
-            // spacing={5}
+          // spacing={5}
           >
             <Grid item container>
               <Grid item xs={2}></Grid>
@@ -122,7 +122,7 @@ function Home(props) {
                   </Paper>
                 </Box>
               </Grid>
-              <Grid item ={2}></Grid>
+              <Grid item={2}></Grid>
             </Grid>
           </Grid>
           <Grid item container justify="center">
@@ -131,34 +131,34 @@ function Home(props) {
               <Grid item xs={4} container justify="center">
                 <Box mt={15} display="flex" justify="center">
                   <Paper onClick={() => {
-                      history.push("/Support");
-                    }}><SvgIcon
+                    history.push("/Support");
+                  }}><SvgIcon
                     style={{ fontSize: 80, color: "#4CAF50" }}
-                    
+
                   >
-                    <MessageIcon />
-                    {/* </IconButton> */}
-                  </SvgIcon></Paper>
+                      <MessageIcon />
+                      {/* </IconButton> */}
+                    </SvgIcon></Paper>
                 </Box>
               </Grid>
               <Grid
                 item
                 xs={4}
-                container 
+                container
                 justify="center"
                 display="inline-flex"
                 className={classes.iconDiv}
               >
                 <Box mt={15} alignItems="center" className={classes.wrapIcon}>
                   <Paper onClick={() => {
-                      history.push("/Maps");
-                    }}><SvgIcon
+                    history.push("/Maps");
+                  }}><SvgIcon
                     style={{ fontSize: 80, color: "#4CAF50" }}
-                    
+
                   >
-                    <MapIcon />
-                    {/* </IconButton> */}
-                  </SvgIcon></Paper>
+                      <MapIcon />
+                      {/* </IconButton> */}
+                    </SvgIcon></Paper>
                 </Box>
               </Grid>
               <Grid item xs={2}></Grid>

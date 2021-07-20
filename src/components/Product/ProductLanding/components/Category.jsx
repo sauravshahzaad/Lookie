@@ -63,8 +63,8 @@ function Category(props) {
 
 
 const mapStateToProps = (state) => ({
-    loggedIn: state.authentication.loggedIn,
-    user: state.authentication.user
+    loggedIn: state.application.loggedIn,
+    user: state.application.user
 
 })
 

@@ -285,8 +285,8 @@ export const AppointmentTab = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    loggedIn: state.authentication.loggedIn,
-    user: state.authentication.user,
+    loggedIn: state.application.loggedIn,
+    user: state.application.user,
     services: state.application.services,
     shop: state.application.shop
 
