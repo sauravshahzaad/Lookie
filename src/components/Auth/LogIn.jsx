@@ -1,5 +1,6 @@
 import * as Yup from "yup";
-
+import { connect } from 'react-redux'
+import Loading from "../../sharedComponents/Loading/Loading"
 import {
   Avatar,
   Box,
@@ -67,6 +68,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function LogIn(props) {
+  const { loading } = props
+  if (loading) {
+    <Loading />
+  }
   // console.log(props)
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -296,4 +301,19 @@ function Copyright() {
     </Typography>
   );
 }
-export default LogIn;
+
+const mapStateToProps = (state) => ({
+  loading: state.application.loading,
+
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  actions: {
+    shopSelect: (shop) => {
+      return dispatch(applicationActions.shopSelect(shop))
+    }
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn)
+

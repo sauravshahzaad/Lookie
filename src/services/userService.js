@@ -28,7 +28,7 @@ async function login(emails, password) {
     )
     .then(function (response) {
       // console.log(response);
-      // console.log("user => " + JSON.stringify(response.data));
+      console.log("user => " + JSON.stringify(response.data));
       if (response.data.success)
         return response.data;
       else if (!response.data.success) {

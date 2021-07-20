@@ -8,4 +8,5 @@ export const SIGNUP_ROUTE = "/SignUp"
 export const LOG_IN = "/logIn"
 export const SHOP_ROUTE = "/shop"
 export const PRODUCTS_ROUTE = "/products"
+export const SUCCESS_PAGE = "/success"
 

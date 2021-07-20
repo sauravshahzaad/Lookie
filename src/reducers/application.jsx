@@ -14,7 +14,7 @@ import {
     SET_LOCATION_SUCCESS,
     REGISTER_FAILURE,
     REGISTER_REQUEST,
-    REGISTER_SUCCESS, SUCCESS, ERROR, CLEAR
+    REGISTER_SUCCESS, SUCCESS, ERROR, CLEAR, BOOK_APPOINTMENT_REQUEST, BOOK_APPOINTMENT_SUCCESS, BOOK_APPOINTMENT_FAILURE
 } from "../actionConstants/actionConstants";
 
 const initialState = {
@@ -142,7 +142,9 @@ const initialState = {
     noti: {
         type: "no_alert",
         msg: ""
-    }
+    },
+    newAppointments:{},
+    bookedAppointments: []
 }
 export function application(state = initialState, action) {
 
@@ -251,6 +253,7 @@ export function application(state = initialState, action) {
             };
         case SET_SHOP_REQUEST:
         case SET_SERVICES_REQUEST:
+        case BOOK_APPOINTMENT_REQUEST:
             return {
                 ...state,
                 loading: true
@@ -267,8 +270,16 @@ export function application(state = initialState, action) {
                 services: action.payload,
                 loading: false
             };
+        case BOOK_APPOINTMENT_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                newAppointments: { ...action.payload },
+                // bookedAppointments: [...state.bookedAppointments, ...action.payload]
+            }
         case SET_SHOP_FAILURE:
         case SET_SERVICES_FAILURE:
+        case BOOK_APPOINTMENT_FAILURE:
             return {
                 ...state,
                 loading: false

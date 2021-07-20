@@ -6,7 +6,8 @@ import {
     PRODUCT_LISTING_ROUTE,
     SHOP_ROUTE,
     SIGNUP_ROUTE,
-    PRODUCTS_ROUTE
+    PRODUCTS_ROUTE,
+    SUCCESS_PAGE
 } from './routeConstants'
 
 import React from 'react'
@@ -42,10 +43,16 @@ const Shop_Container = React.lazy(() =>
     )
 )
 
-const Products_Container=React.lazy(() =>
-import(
-    '../../components/Product/Products/Products' /* webpackChunkName: "ProductListing.Container" */
+const Products_Container = React.lazy(() =>
+    import(
+        '../../components/Product/Products/Products' /* webpackChunkName: "ProductListing.Container" */
+    )
 )
+
+const Success_Page = React.lazy(() => 
+    import(
+        '../../components/success/SuccessPage'
+    )
 )
 
 
@@ -92,6 +99,11 @@ const appRoutes = {
         products: {
             path: PRODUCTS_ROUTE,
             component: Products_Container,
+            exact: true
+        },
+        success: {
+            path: SUCCESS_PAGE,
+            component: Success_Page,
             exact: true
         }
 

@@ -1,4 +1,7 @@
 import {
+    BOOK_APPOINTMENT_FAILURE,
+    BOOK_APPOINTMENT_REQUEST,
+    BOOK_APPOINTMENT_SUCCESS,
     CLEAR,
     DELETE_FAILURE,
     DELETE_REQUEST,
@@ -25,6 +28,7 @@ import {
     SET_SHOP_SUCCESS,
     SUCCESS,
 } from "../actionConstants/actionConstants"
+import { applicationService } from "../services/applicationService";
 
 import { userService } from "../services/userService";
 
@@ -147,11 +151,38 @@ const servicesSelect = (services) => {
     }
 }
 
+const bookAppointmentCreator = (type, payload = undefined) => ({
+    type,
+    payload
+})
+const bookAppointment = (appointment) => {
+    return async (dispatch) => {
+        dispatch(bookAppointmentCreator(BOOK_APPOINTMENT_REQUEST))
+        try {
+            const response = await applicationService.bookAppointment(appointment)
+            console.log(response, "in Book Appointment")
+            if (response.data.success) {
+                dispatch(bookAppointmentCreator(BOOK_APPOINTMENT_SUCCESS, response.data.appointment))
+                dispatch(success(response.data.msg));
+                console.log(response, "in Book Appointment")
+                return response
+            } else {
+                dispatch(bookAppointmentCreator(BOOK_APPOINTMENT_FAILURE, response.data.msg))
+                dispatch(error(response.data.msg.toString()));
+                return response
+            }
+        } catch (err) {
+            console.log(err)
+            dispatch(error(err.toString()));
+        }
+    }
+}
+
+
 
 function getAll() {
     return (dispatch) => {
-        dispatch(request());
-
+        dispatch(request());    
         userService.getAll().then(
             (users) => dispatch(success(users)),
             (error) => dispatch(failure(error.toString()))
@@ -212,5 +243,6 @@ export const applicationActions = {
     getAll,
     delete: _delete,
     servicesSelect,
-    shopSelect
+    shopSelect,
+    bookAppointment
 };

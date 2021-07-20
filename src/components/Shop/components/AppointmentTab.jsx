@@ -7,7 +7,7 @@ import {
 } from '@material-ui/pickers';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
-import { LOG_IN } from '../../../configurations/routing/routeConstants';
+import { LOG_IN, SUCCESS_PAGE } from '../../../configurations/routing/routeConstants';
 import MaterialTypography from "../../../sharedComponents/materialComponents/typography/MaterialTypography"
 import MenuItem from '@material-ui/core/MenuItem';
 import React from 'react'
@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import { useFormik } from "formik";
 import { useHistory } from 'react-router';
+import { applicationActions } from "../../../actions/application";
 
 const phoneRegExp = /^[6789]\d{9}$/
 
@@ -41,16 +42,17 @@ const useStyles = makeStyles((theme) => ({
 export const AppointmentTab = (props) => {
     const classes = useStyles()
     const history = useHistory()
-    const { loggedIn, user, services, shop } = props
+    const { loggedIn, user, services, shop, actions } = props
     // console.log(services, "services", shop, "shop")
-    // console.log(user.user, "user in appoint")
-    // const handlSignUp = async (user) => {
-    //     const res = await dispatch(userActions.register(user))
-    //     console.log(res.data, "res")
-    //     if (res.data.success) {
-    //       history.push("/")
-    //     }
-    //   }
+    console.log(user.user, "user in appoint")
+
+    const handleBookAppointment = async (appointment) => {
+        const res = await actions.bookAppointment(appointment)
+        console.log(res, "res")
+        if (res.data.success) {
+            history.push({pathname:SUCCESS_PAGE})
+        }
+    }
 
     // const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -69,7 +71,7 @@ export const AppointmentTab = (props) => {
             Name: user.user.name,
             mobile: '',
             date: new Date(),
-            startTime: shop.About.OpeningHours[0],
+            startTime: shop.About.OpeningHours[0].open,
             services: services === undefined ? "None" : services[0].name
         },
         validationSchema: Yup.object({
@@ -93,17 +95,13 @@ export const AppointmentTab = (props) => {
                 .nullable()
         }),
         onSubmit: (values) => {
-            //   alert(JSON.stringify(values, null, 2));
-            console.log(JSON.stringify(values));
-            // const newUser = {
-            //     name: values.fullName,
-            //     userName: values.userName,
-            //     email: values.email,
-            //     password: values.password,
-            //     mobile: values.mobile
-            // }
-            // console.log(JSON.stringify(newUser), "newuser");
-            // handlSignUp(newUser)
+            const newAppointment = {
+                ...values,
+                id: user.user.id,
+                shopId: shop.id
+            }
+            console.log(newAppointment)
+            handleBookAppointment(newAppointment)
 
         },
     });
@@ -292,8 +290,13 @@ const mapStateToProps = (state) => ({
 
 })
 
-const mapDispatchToProps = {
+const mapDispatchToProps = (dispatch) => ({
+    actions: {
+        bookAppointment: (appointment) => {
+            return dispatch(applicationActions.bookAppointment(appointment))
+        }
+    }
 
-}
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppointmentTab)
